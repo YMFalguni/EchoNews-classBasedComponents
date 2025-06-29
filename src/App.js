@@ -1,94 +1,147 @@
 import "./App.css";
-import Navbar from "./components/Navbar";
-import TextForm from "./components/TextForm";
-import { useState } from "react";
-import Alert from "./components/Alert";
-// import Theame from "./components/Theame";
-// import About from "./components/About";
-import React from "react";
-//import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+// import React from "react";
+import React, { Component } from "react";
+import Navbar from "./Components/Navbar";
+import News from "./Components/News";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoadingBar from "react-top-loading-bar";
 
-function App() {
-  const [alert,setAlert]= useState (null);
+export default class App extends Component {
+  pageSize = 15;
+  apiKey = process.env.REACT_APP_NEWS_API_KEY; // Ensure you have set this in your .env file
+  state = {
+    progress: 0,
+  };
 
-  const showAlert = (message, type)=>{
-    setAlert ({
-      msg: message,
-      type: type 
-    })
-    setTimeout(() =>  {
-      setAlert(null);
-    }, 1500); // removing Alert pop-up after 3 secs
-  }  // show alert will take alert message and take type of laert
-
-  const [mode,setMode] = useState ('light');
-  const toggleMode = () => {
-    if(mode === 'light'){
-       setMode  ('dark');
-       document.body.style.backgroundColor = '#042743';
-       showAlert("Dark Mode has been Enabled","success");
-       document.title = 'TextUtils - Dark Mode';
-      //  setInterval( () => {
-      //   document.title = 'TextUtils - Amezing Website';
-      //  },2000 )
-      //  setInterval( () => {
-      //   document.title = 'TextUtils - Install Now';
-      //  },1500 ) // this will change in every 2 sec and 1.5 sec
-    }
-    else {
-      setMode ('light');
-      document.body.style.backgroundColor = 'white';
-      showAlert("Light Mode has been Enabled","success");
-      document.title = 'TextUtils - Light Mode';
-    }
+  setProgress = (progress) => {
+    this.setState({ progress: progress });
+  };
+  render() {
+    return (
+      <div>
+        <Router>
+          <Navbar />
+          <LoadingBar
+            height={3}
+            color="#f11946"
+            progress={this.state.progress}
+          />
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <News
+                  setProgress={this.setProgress}
+                  apiKey={this.apiKey}
+                  key="general"
+                  pageSize={this.pageSize}
+                  country="us"
+                  category="general"
+                />
+              }
+            />
+            <Route
+              exact
+              path="/business"
+              element={
+                <News
+                  setProgress={this.setProgress}
+                  apiKey={this.apiKey}
+                  key="business"
+                  pageSize={this.pageSize}
+                  country="us"
+                  category="business"
+                />
+              }
+            />
+            <Route
+              exact
+              path="/entertainment"
+              element={
+                <News
+                  setProgress={this.setProgress}
+                  apiKey={this.apiKey}
+                  key="entertainment"
+                  pageSize={this.pageSize}
+                  country="us"
+                  category="entertainment"
+                />
+              }
+            />
+            <Route
+              exact
+              path="/general"
+              element={
+                <News
+                  setProgress={this.setProgress}
+                  apiKey={this.apiKey}
+                  key="general"
+                  pageSize={this.pageSize}
+                  country="us"
+                  category="general"
+                />
+              }
+            />
+            <Route
+              exact
+              path="/health"
+              element={
+                <News
+                  setProgress={this.setProgress}
+                  apiKey={this.apiKey}
+                  key="health"
+                  pageSize={this.pageSize}
+                  country="us"
+                  category="health"
+                />
+              }
+            />
+            <Route
+              exact
+              path="/science"
+              element={
+                <News
+                  setProgress={this.setProgress}
+                  apiKey={this.apiKey}
+                  key="science"
+                  pageSize={this.pageSize}
+                  country="us"
+                  category="science"
+                />
+              }
+            />
+            <Route
+              exact
+              path="/sports"
+              element={
+                <News
+                  setProgress={this.setProgress}
+                  apiKey={this.apiKey}
+                  key="sports"
+                  pageSize={this.pageSize}
+                  country="us"
+                  category="sports"
+                />
+              }
+            />
+            <Route
+              exact
+              path="/technology"
+              element={
+                <News
+                  setProgress={this.setProgress}
+                  apiKey={this.apiKey}
+                  key="technology"
+                  pageSize={this.pageSize}
+                  country="us"
+                  category="technology"
+                />
+              }
+            />
+          </Routes>
+        </Router>
+      </div>
+    );
   }
-  // const [theme ,setTheme] = useState ('light')
-  // const changeTheame =() =>{
-  //    if (mode ==='light') {if (theme === 'light'){
-  //       setTheme ('pink');
-  //       document.body.style.backgroundColor = '#F4C2C2';
-  //       // document.body.style.color = ''
-  //       showAlert("Pink mode is Enabled","success");
-  //     }
-  //     else {
-  //       setTheme ('light');
-  //       document.body.style.backgroundColor = 'white';
-  //       showAlert("Light Mode has been Enabled","success");
-  //     }}
-  //     else {
-  //       if (theme === 'dark'){
-  //         setTheme ('pink');
-  //         document.body.style.backgroundColor = '#F4C2C2';
-  //         showAlert("Pink mode is Enabled","success");
-  //       }
-  //       else {
-  //         setTheme ('dark');
-  //         document.body.style.backgroundColor = '#042743';
-  //         document.body.style.color = ' #000000';
-  //         showAlert("Dark Mode has been Enabled","success");
-  //       }
-        
-  //     }
-  // }
- 
-  return (
-    <>
-      
-      {/* <Router> */}
-          <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode}  />
-          <Alert  alert ={alert}/>
-          {/* <div className="container">
-            <Theame theme={theme} changeTheame={changeTheame} />
-          </div>   */}
-
-          {/* <Routes> */}
-              {/* <Route exact path="/about" element={<About aboutText="About" className="Container mx-5"/>} /> */}
-              <div className="container my-3">
-                <TextForm showAlert={showAlert}heading="Enter the text to Analyze below" mode={mode} />
-              </div>
-          {/* </Routes> */}
-      {/* </Router> */}
-    </>
-  );
 }
-export default App;
